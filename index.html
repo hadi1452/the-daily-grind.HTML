@@ -41,8 +41,15 @@
       align-items: center;
       justify-content: space-between;
       padding: 1rem 2.5rem;
+    }
+
+    nav::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(44, 26, 14, 0.92);
       backdrop-filter: blur(8px);
+      z-index: -1;
     }
 
     .nav-logo {
