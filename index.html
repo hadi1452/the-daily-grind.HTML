@@ -13,7 +13,9 @@
     :root {
       --espresso:  #2C1A0E;
       --brown:     #5C3317;
-      --caramel:   #A0622A;
+      --caramel:   #B8860B;
+      --gold:      #C9A84C;
+      --gold-light:#E8D48B;
       --cream:     #F5ECD7;
       --oat:       #EDE0C8;
       --sage:      #7A9278;
@@ -30,6 +32,20 @@
       background: var(--white);
       color: var(--text);
       line-height: 1.6;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
     }
 
     /* ── NAV ── */
@@ -60,7 +76,7 @@
       text-decoration: none;
     }
 
-    .nav-logo span { color: var(--caramel); }
+    .nav-logo span { color: var(--gold); }
 
     .nav-links {
       display: flex;
@@ -78,7 +94,7 @@
       transition: color 0.2s;
     }
 
-    .nav-links a:hover { color: var(--caramel); }
+    .nav-links a:hover { color: var(--gold); }
 
     .nav-cta {
       background: var(--caramel);
@@ -136,9 +152,79 @@
       text-align: center;
       padding: 8rem 2rem 4rem;
       position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; left: 0;
+      width: 100%; height: 140%;
       background:
         linear-gradient(to bottom, rgba(44,26,14,0.65) 0%, rgba(44,26,14,0.35) 60%, rgba(44,26,14,0.75) 100%),
         url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80') center/cover no-repeat;
+      z-index: -1;
+      will-change: transform;
+      transform: translateY(var(--parallax-y, 0));
+    }
+
+    /* ── COFFEE STEAM ── */
+    .steam-container {
+      position: absolute;
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 120px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .steam {
+      position: absolute;
+      bottom: 0;
+      width: 8px;
+      height: 80px;
+      background: linear-gradient(to top, rgba(245,236,215,0.25), transparent);
+      border-radius: 50%;
+      filter: blur(6px);
+      animation: steamRise 3s ease-in-out infinite;
+    }
+    .steam-1 { left: 12px; animation-delay: 0s; animation-duration: 3s; }
+    .steam-2 { left: 28px; animation-delay: 0.8s; animation-duration: 3.5s; height: 100px; }
+    .steam-3 { left: 44px; animation-delay: 1.5s; animation-duration: 2.8s; height: 70px; }
+
+    @keyframes steamRise {
+      0%   { opacity: 0; transform: translateY(0) scaleX(1); }
+      15%  { opacity: 0.6; }
+      50%  { opacity: 0.3; transform: translateY(-40px) scaleX(1.4) translateX(5px); }
+      100% { opacity: 0; transform: translateY(-90px) scaleX(2) translateX(-3px); }
+    }
+
+    /* ── HERO LOAD ANIMATION ── */
+    .hero-badge,
+    .hero h1,
+    .hero p,
+    .hero .btn-group {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: heroFadeIn 0.8s ease-out forwards;
+    }
+    .hero-badge      { animation-delay: 0.2s; }
+    .hero h1         { animation-delay: 0.4s; }
+    .hero p          { animation-delay: 0.6s; }
+    .hero .btn-group { animation-delay: 0.8s; }
+
+    .hero-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: heroFadeInScroll 0.8s ease-out 1.0s forwards;
+    }
+
+    @keyframes heroFadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroFadeInScroll {
+      to { opacity: 0.7; transform: translateY(0); }
     }
 
     .hero-badge {
@@ -165,7 +251,7 @@
 
     .hero h1 em {
       font-style: italic;
-      color: var(--caramel);
+      color: var(--gold);
     }
 
     .hero p {
@@ -187,7 +273,7 @@
       font-size: 1rem;
       letter-spacing: 0.03em;
       transition: background 0.25s, transform 0.2s;
-      box-shadow: 0 4px 20px rgba(160, 98, 42, 0.4);
+      box-shadow: 0 4px 20px rgba(184, 134, 11, 0.4);
     }
 
     .btn-primary:hover {
@@ -226,13 +312,12 @@
       font-size: 0.75rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      opacity: 0.7;
     }
 
     .scroll-line {
       width: 1px;
       height: 40px;
-      background: linear-gradient(to bottom, var(--caramel), transparent);
+      background: linear-gradient(to bottom, var(--gold), transparent);
       animation: scrollPulse 2s ease-in-out infinite;
     }
 
@@ -240,6 +325,68 @@
       0%, 100% { opacity: 0.4; transform: scaleY(1); }
       50%       { opacity: 1;   transform: scaleY(1.15); }
     }
+
+    /* ── MARQUEE TICKER ── */
+    .marquee-strip {
+      background: var(--espresso);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      overflow: hidden;
+      padding: 0.9rem 0;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex;
+      gap: 2.5rem;
+      animation: marqueeScroll 25s linear infinite;
+    }
+    .marquee-track span {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .marquee-dot { opacity: 0.3; font-size: 0.5rem; vertical-align: middle; }
+
+    @keyframes marqueeScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION DIVIDERS ── */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+    }
+    .section-divider::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(200px, 40%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .section-divider::after {
+      content: '\2666';
+      position: relative;
+      z-index: 1;
+      font-size: 0.6rem;
+      color: var(--gold);
+      padding: 0 0.75rem;
+    }
+    .section-divider--dark::after { background: var(--espresso); }
+    .section-divider--cream::after { background: var(--cream); }
+    .section-divider--oat::after { background: var(--oat); }
+    .section-divider--white::after { background: var(--white); }
 
     /* ── ABOUT STRIP ── */
     .about {
@@ -281,7 +428,7 @@
     .about-sig {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      color: var(--caramel);
+      color: var(--gold);
       font-size: 1.1rem;
       margin-top: 1.5rem;
     }
@@ -299,13 +446,19 @@
       border-radius: 1rem;
       padding: 1.25rem;
       text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .about-stat:hover {
+      border-color: rgba(201,168,76,0.25);
+      transform: translateY(-3px);
     }
 
     .about-stat strong {
       display: block;
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: var(--caramel);
+      color: var(--gold);
     }
 
     .about-stat span {
@@ -330,7 +483,7 @@
 
     .features > p {
       color: var(--muted);
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
       font-size: 1rem;
     }
 
@@ -347,12 +500,17 @@
       border-radius: 1.25rem;
       padding: 2rem 1.5rem;
       box-shadow: 0 2px 16px rgba(92, 51, 23, 0.08);
-      transition: transform 0.25s, box-shadow 0.25s;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      border: 1px solid transparent;
     }
 
     .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 28px rgba(92, 51, 23, 0.14);
+      transform: translateY(-6px);
+      box-shadow:
+        0 12px 40px rgba(184, 134, 11, 0.12),
+        0 0 0 1px rgba(184, 134, 11, 0.08);
+      border-color: rgba(184, 134, 11, 0.1);
     }
 
     .feature-icon {
@@ -391,7 +549,7 @@
 
     .menu-preview > p {
       color: var(--muted);
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
     }
 
     .menu-items {
@@ -408,10 +566,14 @@
       padding: 1.5rem 1.25rem;
       text-align: left;
       border-bottom: 3px solid transparent;
-      transition: border-color 0.2s;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
 
-    .menu-item:hover { border-color: var(--caramel); }
+    .menu-item:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(184, 134, 11, 0.1);
+    }
 
     .menu-item-top {
       display: flex;
@@ -466,7 +628,7 @@
       font-family: 'Playfair Display', serif;
       font-size: clamp(1.8rem, 3vw, 2.4rem);
       color: var(--espresso);
-      margin-bottom: 3rem;
+      margin-bottom: 1.5rem;
     }
 
     .reviews-grid {
@@ -483,13 +645,19 @@
       padding: 1.75rem;
       text-align: left;
       position: relative;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 35px rgba(184, 134, 11, 0.1);
     }
 
     .review-card::before {
-      content: '"';
+      content: '\201C';
       font-family: 'Playfair Display', serif;
       font-size: 5rem;
-      color: var(--caramel);
+      color: var(--gold);
       opacity: 0.2;
       position: absolute;
       top: 0.5rem;
@@ -498,7 +666,7 @@
     }
 
     .stars {
-      color: var(--caramel);
+      color: var(--gold);
       font-size: 0.9rem;
       margin-bottom: 0.75rem;
     }
@@ -568,7 +736,7 @@
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--caramel);
+      color: var(--gold);
       margin-bottom: 1rem;
     }
 
@@ -619,7 +787,7 @@
       text-align: center;
       color: var(--muted);
       font-size: 0.95rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1rem;
     }
     .contact-grid {
       display: grid;
@@ -667,8 +835,8 @@
     }
     .c-form-group input:focus,
     .c-form-group textarea:focus {
-      border-color: var(--caramel);
-      box-shadow: 0 0 0 3px rgba(160,98,42,0.12);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,134,11,0.12);
     }
     .c-form-group input::placeholder,
     .c-form-group textarea::placeholder {
@@ -698,7 +866,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.25s, transform 0.2s;
-      box-shadow: 0 4px 16px rgba(160,98,42,0.3);
+      box-shadow: 0 4px 16px rgba(184,134,11,0.3);
       margin-top: 0.5rem;
       width: 100%;
       justify-content: center;
@@ -735,7 +903,7 @@
       opacity: 0.7;
     }
     .info-item a {
-      color: var(--caramel);
+      color: var(--gold);
       text-decoration: none;
       transition: opacity 0.2s;
     }
@@ -807,6 +975,36 @@
 
     .sticky-bar .sb-ghost:hover { background: rgba(255,255,255,0.1); }
 
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-child {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .reveal-child.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .steam, .marquee-track, .scroll-line { animation: none !important; }
+      .reveal, .reveal-child { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .hero::before { transform: none !important; }
+      .hero-badge, .hero h1, .hero p, .hero .btn-group, .hero-scroll {
+        opacity: 1 !important; transform: none !important; animation: none !important;
+      }
+    }
+
     /* ── RESPONSIVE ── */
     body.menu-open { overflow: hidden; }
 
@@ -868,6 +1066,11 @@
 
   <!-- HERO -->
   <section class="hero">
+    <div class="steam-container" aria-hidden="true">
+      <div class="steam steam-1"></div>
+      <div class="steam steam-2"></div>
+      <div class="steam steam-3"></div>
+    </div>
     <span class="hero-badge">&#9749; Open Daily 6am – 8pm</span>
     <h1>Your Neighborhood<br /><em>Coffee Ritual</em></h1>
     <p>Handcrafted espresso, warm corners, and the smell of something freshly baked. Every single morning.</p>
@@ -881,9 +1084,35 @@
     </div>
   </section>
 
+  <!-- MARQUEE TICKER -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Handcrafted Espresso</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Single-Origin Beans</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Fresh-Baked Daily</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Locally Sourced</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Open 7 Days a Week</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Handcrafted Espresso</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Single-Origin Beans</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Fresh-Baked Daily</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Locally Sourced</span>
+      <span class="marquee-dot">&#9670;</span>
+      <span>Open 7 Days a Week</span>
+      <span class="marquee-dot">&#9670;</span>
+    </div>
+  </div>
+
   <!-- ABOUT STRIP -->
   <section class="about">
-    <div class="about-text">
+    <div class="about-text reveal">
       <p class="section-label">Our Story</p>
       <h2>Brewed with intention,<br />served with warmth.</h2>
       <p>
@@ -891,36 +1120,39 @@
       </p>
       <p class="about-sig">— Maya &amp; Tom, Founders</p>
     </div>
-    <div class="about-visual">
-      <div class="about-stat"><strong>8+</strong><span>Years in the neighborhood</span></div>
-      <div class="about-stat"><strong>12</strong><span>Local farm partners</span></div>
-      <div class="about-stat"><strong>4.9</strong><span>Google rating</span></div>
+    <div class="about-visual reveal">
+      <div class="about-stat"><strong data-count="8" data-suffix="+">0+</strong><span>Years in the neighborhood</span></div>
+      <div class="about-stat"><strong data-count="12" data-suffix="">0</strong><span>Local farm partners</span></div>
+      <div class="about-stat"><strong data-count="4.9" data-suffix="" data-decimal="true">0</strong><span>Google rating</span></div>
       <div class="about-stat"><strong>Daily</strong><span>Fresh-baked pastries</span></div>
     </div>
   </section>
 
   <!-- FEATURES -->
   <section class="features">
-    <p class="section-label">Why Come In</p>
-    <h2>More than a coffee shop</h2>
-    <p>A place to slow down, work, or catch up with someone you love.</p>
+    <div class="reveal">
+      <p class="section-label">Why Come In</p>
+      <h2>More than a coffee shop</h2>
+      <p>A place to slow down, work, or catch up with someone you love.</p>
+    </div>
+    <div class="section-divider section-divider--cream"></div>
     <div class="features-grid">
-      <div class="feature-card">
+      <div class="feature-card reveal-child">
         <div class="feature-icon">&#9749;</div>
         <h3>Specialty Roasts</h3>
         <p>Single-origin and seasonal blends, roasted fresh every week by our local partners.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal-child">
         <div class="feature-icon">&#127807;</div>
         <h3>Locally Sourced</h3>
         <p>Pastries, milk, and produce come from farms within 50 miles. You taste the difference.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal-child">
         <div class="feature-icon">&#128241;</div>
         <h3>Free High-Speed WiFi</h3>
         <p>Reliable, fast, and no time limit. Stay as long as your cup holds out.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal-child">
         <div class="feature-icon">&#127968;</div>
         <h3>Cozy Spaces</h3>
         <p>Window seats, communal tables, and a quiet back nook. Find your favorite spot.</p>
@@ -930,11 +1162,14 @@
 
   <!-- MENU PREVIEW -->
   <section class="menu-preview">
-    <p class="section-label">From the Menu</p>
-    <h2>A taste of what's waiting</h2>
-    <p>Rotating seasonal specials + the classics you'll come back for every time.</p>
+    <div class="reveal">
+      <p class="section-label">From the Menu</p>
+      <h2>A taste of what's waiting</h2>
+      <p>Rotating seasonal specials + the classics you'll come back for every time.</p>
+    </div>
+    <div class="section-divider section-divider--oat"></div>
     <div class="menu-items">
-      <div class="menu-item">
+      <div class="menu-item reveal-child">
         <div class="menu-item-top">
           <h4>Signature Latte</h4>
           <span class="price">$5.50</span>
@@ -942,7 +1177,7 @@
         <p>Brown butter, oat milk, and a pinch of sea salt. Our most-loved drink.</p>
         <span class="menu-tag">&#11088; Bestseller</span>
       </div>
-      <div class="menu-item">
+      <div class="menu-item reveal-child">
         <div class="menu-item-top">
           <h4>Pour-Over Single Origin</h4>
           <span class="price">$6.00</span>
@@ -950,7 +1185,7 @@
         <p>Ethiopia Yirgacheffe. Bright, floral, and endlessly complex.</p>
         <span class="menu-tag">Seasonal</span>
       </div>
-      <div class="menu-item">
+      <div class="menu-item reveal-child">
         <div class="menu-item-top">
           <h4>Cold Brew Float</h4>
           <span class="price">$6.50</span>
@@ -958,7 +1193,7 @@
         <p>18-hour cold brew over vanilla bean ice cream. A summer ritual.</p>
         <span class="menu-tag">&#127807; Vegan opt.</span>
       </div>
-      <div class="menu-item">
+      <div class="menu-item reveal-child">
         <div class="menu-item-top">
           <h4>Almond Croissant</h4>
           <span class="price">$4.25</span>
@@ -972,20 +1207,23 @@
 
   <!-- REVIEWS -->
   <section class="reviews">
-    <p class="section-label">What People Say</p>
-    <h2>Regulars don't lie</h2>
+    <div class="reveal">
+      <p class="section-label">What People Say</p>
+      <h2>Regulars don't lie</h2>
+    </div>
+    <div class="section-divider section-divider--white"></div>
     <div class="reviews-grid">
-      <div class="review-card">
+      <div class="review-card reveal-child">
         <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p>"I've tried every coffee shop in a 10-mile radius. The Daily Grind is the only one that feels like it was made for me."</p>
         <span class="reviewer">— Sarah M., Google Review</span>
       </div>
-      <div class="review-card">
+      <div class="review-card reveal-child">
         <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p>"The brown butter latte is something I genuinely think about on my commute. They set the bar impossibly high."</p>
         <span class="reviewer">— James K., Yelp Review</span>
       </div>
-      <div class="review-card">
+      <div class="review-card reveal-child">
         <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p>"I do all my deep work here. The vibe is calm, the WiFi never drops, and nobody rushes you. Rare."</p>
         <span class="reviewer">— Priya A., Google Review</span>
@@ -996,13 +1234,15 @@
   <!-- CONTACT SECTION -->
   <section class="contact-section" id="contact">
     <div class="contact-inner">
-      <p class="section-label">Get in Touch</p>
-      <h2>We'd Love to Hear From You</h2>
-      <p>Questions, event bookings, or just saying hi — fill in the form and we'll reply within one business day.</p>
+      <div class="reveal">
+        <p class="section-label">Get in Touch</p>
+        <h2>We'd Love to Hear From You</h2>
+        <p>Questions, event bookings, or just saying hi — fill in the form and we'll reply within one business day.</p>
+      </div>
+      <div class="section-divider section-divider--cream"></div>
 
       <div class="contact-grid">
-        <!-- LEFT: Contact Form -->
-        <div class="contact-form-card">
+        <div class="contact-form-card reveal">
           <h3>Send us a message</h3>
           <form onsubmit="event.preventDefault(); alert('Message sent! We will get back to you soon.'); this.reset();">
             <div class="c-form-row">
@@ -1031,8 +1271,7 @@
           </form>
         </div>
 
-        <!-- RIGHT: Find Us Info -->
-        <div class="find-us-info">
+        <div class="find-us-info reveal">
           <h3>Find Us</h3>
           <div class="info-item">
             <span class="icon">&#128205;</span>
@@ -1060,11 +1299,13 @@
 
   <!-- VISIT CTA -->
   <section class="visit-cta">
-    <h2>Come find your corner.</h2>
-    <p>We're open seven days a week. Pull up a stool — we'll have something ready.</p>
-    <div class="cta-group">
-      <a href="#contact" class="btn-primary">Get Directions &rarr;</a>
-      <a href="#contact" class="btn-outline">Send Us a Message</a>
+    <div class="reveal">
+      <h2>Come find your corner.</h2>
+      <p>We're open seven days a week. Pull up a stool — we'll have something ready.</p>
+      <div class="cta-group">
+        <a href="#contact" class="btn-primary">Get Directions &rarr;</a>
+        <a href="#contact" class="btn-outline">Send Us a Message</a>
+      </div>
     </div>
   </section>
 
@@ -1110,6 +1351,7 @@
   </div>
 
   <script>
+    // Sticky bar
     const bar = document.getElementById('stickyBar');
     window.addEventListener('scroll', () => {
       if (window.scrollY > window.innerHeight * 0.6) {
@@ -1136,6 +1378,76 @@
         document.body.classList.remove('menu-open');
       });
     });
+
+    // Parallax hero
+    const hero = document.querySelector('.hero');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      if (scrolled <= hero.offsetHeight) {
+        hero.style.setProperty('--parallax-y', scrolled * 0.35 + 'px');
+      }
+    }, { passive: true });
+
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Staggered children reveal
+    const childObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const children = entry.target.querySelectorAll('.reveal-child');
+          children.forEach((child, i) => {
+            child.style.transitionDelay = (i * 0.12) + 's';
+            child.classList.add('revealed');
+          });
+          childObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.features-grid, .menu-items, .reviews-grid').forEach(el => {
+      childObserver.observe(el);
+    });
+
+    // Animated stat counters
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counters = entry.target.querySelectorAll('[data-count]');
+          counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-count'));
+            const suffix = counter.getAttribute('data-suffix') || '';
+            const isDecimal = counter.hasAttribute('data-decimal');
+            const duration = 1500;
+            const startTime = performance.now();
+
+            function updateCount(currentTime) {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              const current = eased * target;
+              counter.textContent = isDecimal
+                ? current.toFixed(1) + suffix
+                : Math.floor(current) + suffix;
+              if (progress < 1) requestAnimationFrame(updateCount);
+            }
+            requestAnimationFrame(updateCount);
+          });
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    statObserver.observe(document.querySelector('.about-visual'));
   </script>
 
 </body>
