@@ -457,6 +457,7 @@
     /* Hamburger Button */
     .hamburger {
       display: none;
+      position: relative;
       background: none;
       border: none;
       cursor: pointer;
@@ -482,9 +483,11 @@
       transform: rotate(-45deg) translate(5px, -5px);
     }
 
+    body.menu-open { overflow: hidden; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .hamburger { display: block; }
+      .hamburger { display: flex; flex-direction: column; justify-content: center; }
       .nav-links {
         display: none;
         position: fixed;
@@ -1044,11 +1047,13 @@
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       navLinks.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
     });
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         navLinks.classList.remove('open');
+        document.body.classList.remove('menu-open');
       });
     });
   </script>
