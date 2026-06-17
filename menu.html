@@ -454,10 +454,53 @@
       opacity: 0.45;
     }
 
+    /* Hamburger Button */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 200;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--cream);
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
     /* ── RESPONSIVE ── */
-    @media (max-width: 680px) {
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(44, 26, 14, 0.98);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        z-index: 150;
+        padding: 2rem;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.3rem; letter-spacing: 0.06em; }
+      .nav-cta { padding: 0.75rem 2rem; font-size: 1.1rem; }
       nav { padding: 1rem 1.25rem; }
-      .nav-links li:first-child { display: none; }
       .controls { top: 58px; }
       .menu-card.featured {
         grid-column: span 1;
@@ -476,7 +519,12 @@
   <!-- NAV -->
   <nav>
     <a href="index.html" class="nav-logo">The Daily <span>Grind</span></a>
-    <ul class="nav-links">
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
       <li><a href="menu.html" class="active">Menu</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -987,6 +1035,21 @@
     const banner = document.getElementById('stickyVisit');
     window.addEventListener('scroll', () => {
       banner.classList.toggle('visible', window.scrollY > 300);
+    });
+  </script>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
     });
   </script>
 
