@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact & Find Us — The Daily Grind</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --espresso:  #2C1A0E;
+      --brown:     #5C3317;
+      --caramel:   #A0622A;
+      --cream:     #F5ECD7;
+      --oat:       #EDE0C8;
+      --sage:      #7A9278;
+      --sage-dark: #5A7260;
+      --white:     #FDFAF5;
+      --text:      #1E1007;
+      --muted:     #6B5744;
+      --border:    #DDD0BC;
+      --error:     #C0392B;
+      --success:   #4A7A5A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(44, 26, 14, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--caramel); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--oat);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--caramel); }
+
+    .nav-cta {
+      background: var(--caramel);
+      color: var(--white) !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+    }
+
+    .nav-cta:hover { background: var(--brown) !important; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 7rem 2rem 3.5rem;
+      text-align: center;
+      background:
+        linear-gradient(to bottom, rgba(44,26,14,0.78) 0%, rgba(44,26,14,0.55) 100%),
+        url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1400&q=80') center/cover no-repeat;
+    }
+
+    .section-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.6rem;
+    }
+
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-hero p {
+      color: var(--oat);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 400px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    /* ── QUICK INFO STRIP ── */
+    .quick-strip {
+      background: var(--espresso);
+      padding: 1.1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .quick-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--oat);
+      font-size: 0.875rem;
+    }
+
+    .quick-item .icon {
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+
+    .quick-item strong { color: var(--cream); font-weight: 500; }
+
+    .quick-item a {
+      color: var(--caramel);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .quick-item a:hover { opacity: 0.8; }
+
+    /* ── MAIN SPLIT LAYOUT ── */
+    .contact-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 70vh;
+    }
+
+    /* LEFT — FORM */
+    .form-side {
+      background: var(--cream);
+      padding: 4rem 3.5rem 5rem;
+    }
+
+    .form-side h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: var(--espresso);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-side > p {
+      color: var(--muted);
+      font-size: 0.925rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .form-group.full { grid-column: span 2; }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--brown);
+    }
+
+    label .req { color: var(--caramel); margin-left: 2px; }
+
+    input, select, textarea {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 0.6rem;
+      padding: 0.7rem 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--caramel);
+      box-shadow: 0 0 0 3px rgba(160,98,42,0.12);
+    }
+
+    input.error, select.error, textarea.error {
+      border-color: var(--error);
+    }
+
+    .field-error {
+      font-size: 0.75rem;
+      color: var(--error);
+      display: none;
+    }
+
+    .field-error.visible { display: block; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B5744' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.9rem center;
+      padding-right: 2.25rem;
+      cursor: pointer;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    /* Subject-specific hint */
+    .subject-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 0.65rem 0.9rem;
+      background: rgba(122,146,120,0.1);
+      border-radius: 0.5rem;
+      border-left: 3px solid var(--sage);
+      margin-top: -0.4rem;
+      margin-bottom: 0.6rem;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .subject-hint.visible { display: block; }
+
+    /* Submit */
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--caramel);
+      color: var(--white);
+      border: none;
+      padding: 0.9rem 2.2rem;
+      border-radius: 3rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+      box-shadow: 0 4px 16px rgba(160,98,42,0.35);
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--brown);
+      transform: translateY(-2px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-submit .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+
+    .btn-submit.loading .spinner { display: block; }
+    .btn-submit.loading .btn-label { display: none; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Success state */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: var(--white);
+      border-radius: 1rem;
+      border: 1.5px solid rgba(74,122,90,0.3);
+    }
+
+    .success-state.visible { display: block; }
+    #contact-form.hidden   { display: none; }
+
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .success-state h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--espresso);
+      margin-bottom: 0.6rem;
+    }
+
+    .success-state p {
+      color: var(--muted);
+      font-size: 0.925rem;
+      max-width: 340px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .btn-reset {
+      background: none;
+      border: 1.5px solid var(--caramel);
+      color: var(--caramel);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.55rem 1.4rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-reset:hover {
+      background: var(--caramel);
+      color: var(--white);
+    }
+
+    /* RIGHT — INFO + MAP */
+    .info-side {
+      background: var(--espresso);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .map-embed {
+      width: 100%;
+      height: 280px;
+      flex-shrink: 0;
+      background: #1a1008;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: sepia(0.3) contrast(0.9);
+    }
+
+    .map-overlay-btn {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      background: var(--caramel);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: background 0.2s;
+    }
+
+    .map-overlay-btn:hover { background: var(--brown); }
+
+    .info-content {
+      padding: 2.5rem 2.75rem;
+      flex: 1;
+    }
+
+    .info-block {
+      margin-bottom: 2rem;
+    }
+
+    .info-block h3 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 0.85rem;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.65rem;
+      color: var(--oat);
+      font-size: 0.9rem;
+    }
+
+    .info-row .icon {
+      font-size: 1rem;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    .info-row a {
+      color: var(--oat);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .info-row a:hover { color: var(--caramel); }
+
+    .hours-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.3rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--oat);
+    }
+
+    .hours-grid .day { opacity: 0.6; }
+    .hours-grid .time { font-weight: 500; }
+    .hours-grid .today { color: var(--caramel); }
+    .hours-grid .today + .time { color: var(--caramel); }
+
+    /* Parking note */
+    .parking-note {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.75rem;
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      gap: 0.65rem;
+      align-items: flex-start;
+      font-size: 0.825rem;
+      color: var(--oat);
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    .parking-note .icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* Social links */
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--oat);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.45rem 1rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .social-btn:hover {
+      background: rgba(255,255,255,0.13);
+      border-color: rgba(255,255,255,0.3);
+      color: var(--cream);
+    }
+
+    /* ── FAQ STRIP ── */
+    .faq {
+      background: var(--oat);
+      padding: 4rem 2rem;
+    }
+
+    .faq-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .faq-inner .section-label { color: var(--brown); text-align: center; }
+
+    .faq-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--espresso);
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 1.4rem 1.5rem;
+    }
+
+    .faq-item h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.975rem;
+      color: var(--espresso);
+      margin-bottom: 0.45rem;
+    }
+
+    .faq-item p {
+      font-size: 0.855rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--espresso);
+      color: var(--oat);
+      padding: 3rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 2rem;
+    }
+
+    footer h4 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1rem;
+    }
+
+    footer ul { list-style: none; }
+    footer ul li { margin-bottom: 0.5rem; }
+    footer ul a {
+      color: var(--oat);
+      text-decoration: none;
+      font-size: 0.875rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    footer ul a:hover { opacity: 1; }
+    footer ul li span { font-size: 0.875rem; opacity: 0.65; }
+
+    .footer-brand p {
+      font-size: 0.875rem;
+      opacity: 0.6;
+      max-width: 200px;
+      line-height: 1.7;
+      margin-top: 0.6rem;
+    }
+
+    .footer-bottom {
+      background: var(--espresso);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 1.25rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--oat);
+      opacity: 0.45;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .contact-body { grid-template-columns: 1fr; }
+      .info-side { order: -1; }
+      .map-embed { height: 220px; }
+      .info-content { padding: 2rem 1.75rem; }
+      .faq-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links li:first-child { display: none; }
+      .form-side { padding: 2.5rem 1.5rem 3.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: span 1; }
+      .quick-strip { gap: 1.25rem; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">The Daily <span>Grind</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="contact.html" class="nav-cta">Find Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <span class="section-label">We'd Love to Hear From You</span>
+    <h1>Come Find Us</h1>
+    <p>Questions, event bookings, or just saying hi — we're easy to reach and quick to reply.</p>
+  </div>
+
+  <!-- QUICK INFO STRIP -->
+  <div class="quick-strip">
+    <div class="quick-item">
+      <span class="icon">&#128205;</span>
+      <span><strong>142 Elm Street,</strong> Downtown District</span>
+    </div>
+    <div class="quick-item">
+      <span class="icon">&#128222;</span>
+      <a href="tel:+15550000000">(555) 000-0000</a>
+    </div>
+    <div class="quick-item">
+      <span class="icon">&#9749;</span>
+      <span>Open <strong>Today</strong>: 6am – 8pm</span>
+    </div>
+  </div>
+
+  <!-- SPLIT LAYOUT -->
+  <div class="contact-body">
+
+    <!-- FORM SIDE -->
+    <div class="form-side">
+      <h2>Send us a message</h2>
+      <p>We reply within one business day — usually much sooner.</p>
+
+      <!-- FORM -->
+      <form id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-name">First Name <span class="req">*</span></label>
+            <input type="text" id="first-name" name="first-name" placeholder="Maya" autocomplete="given-name" />
+            <span class="field-error" id="err-first-name">Please enter your first name.</span>
+          </div>
+          <div class="form-group">
+            <label for="last-name">Last Name <span class="req">*</span></label>
+            <input type="text" id="last-name" name="last-name" placeholder="Johnson" autocomplete="family-name" />
+            <span class="field-error" id="err-last-name">Please enter your last name.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="maya@example.com" autocomplete="email" />
+          <span class="field-error" id="err-email">Please enter a valid email address.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number <span style="font-weight:400;opacity:0.6;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" autocomplete="tel" />
+        </div>
+
+        <div class="form-group">
+          <label for="subject">What's this about? <span class="req">*</span></label>
+          <select id="subject" name="subject">
+            <option value="" disabled selected>Choose a topic…</option>
+            <option value="general">General Inquiry</option>
+            <option value="event">Event Booking</option>
+            <option value="wholesale">Wholesale / Beans</option>
+            <option value="feedback">Feedback</option>
+            <option value="press">Press / Media</option>
+          </select>
+          <span class="field-error" id="err-subject">Please select a topic.</span>
+
+          <div class="subject-hint" id="hint-general">Just saying hi or have a quick question? We love that. We'll get back to you same day.</div>
+          <div class="subject-hint" id="hint-event">We host private events for up to 40 guests after hours. Tell us your date, group size, and vision below — we'll follow up to discuss.</div>
+          <div class="subject-hint" id="hint-wholesale">We sell our house blends in 250g and 1kg bags to local businesses. Tell us what you're after and we'll send a sample kit.</div>
+          <div class="subject-hint" id="hint-feedback">We genuinely read everything. If something was off during your visit, we want to know — and we want to make it right.</div>
+          <div class="subject-hint" id="hint-press">Reach out with your publication and story angle. Our founders Maya and Tom are happy to chat.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your Message <span class="req">*</span></label>
+          <textarea id="message" name="message" placeholder="Tell us what's on your mind…"></textarea>
+          <span class="field-error" id="err-message">Please write a short message.</span>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span class="spinner"></span>
+          <span class="btn-label">Send Message &rarr;</span>
+        </button>
+      </form>
+
+      <!-- SUCCESS STATE -->
+      <div class="success-state" id="success-state">
+        <span class="success-icon">&#9749;</span>
+        <h3>Message received!</h3>
+        <p>Thanks for reaching out. We'll be in touch within one business day — check your inbox (and maybe your spam folder, just in case).</p>
+        <button class="btn-reset" id="reset-btn">Send Another Message</button>
+      </div>
+    </div>
+
+    <!-- INFO SIDE -->
+    <div class="info-side">
+
+      <!-- MAP -->
+      <div class="map-embed">
+        <!-- Replace src with your actual Google Maps embed URL -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215573291865!2d-73.98784492397083!3d40.75798657138819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes+Square!5e0!3m2!1sen!2sus!4v1718000000000"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="The Daily Grind location map">
+        </iframe>
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=142+Elm+Street"
+          target="_blank"
+          rel="noopener"
+          class="map-overlay-btn">
+          Open in Maps &#8599;
+        </a>
+      </div>
+
+      <!-- INFO CONTENT -->
+      <div class="info-content">
+
+        <div class="info-block">
+          <h3>Find Us</h3>
+          <div class="info-row">
+            <span class="icon">&#128205;</span>
+            <span>142 Elm Street, Downtown District<br /><span style="opacity:0.6;font-size:0.82rem">Free street parking on Oak Ave after 6pm</span></span>
+          </div>
+          <div class="info-row">
+            <span class="icon">&#128222;</span>
+            <a href="tel:+15550000000">(555) 000-0000</a>
+          </div>
+          <div class="info-row">
+            <span class="icon">&#9993;</span>
+            <a href="mailto:hello@thedailygrind.com">hello@thedailygrind.com</a>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <h3>Hours</h3>
+          <div class="hours-grid" id="hours-grid">
+            <span class="day">Monday</span>       <span class="time">6:00 am – 8:00 pm</span>
+            <span class="day">Tuesday</span>      <span class="time">6:00 am – 8:00 pm</span>
+            <span class="day">Wednesday</span>    <span class="time">6:00 am – 8:00 pm</span>
+            <span class="day">Thursday</span>     <span class="time">6:00 am – 8:00 pm</span>
+            <span class="day">Friday</span>       <span class="time">6:00 am – 8:00 pm</span>
+            <span class="day">Saturday</span>     <span class="time">7:00 am – 9:00 pm</span>
+            <span class="day">Sunday</span>       <span class="time">8:00 am – 6:00 pm</span>
+          </div>
+        </div>
+
+        <div class="parking-note">
+          <span class="icon">&#128663;</span>
+          <span>Free 2-hour street parking on Oak Ave and Cedar St. The municipal lot on 3rd is $2/hr and a 2-minute walk.</span>
+        </div>
+
+        <div class="social-links">
+          <a href="#" class="social-btn">&#128247; Instagram</a>
+          <a href="#" class="social-btn">&#128081; Facebook</a>
+          <a href="#" class="social-btn">&#11088; Google Reviews</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ STRIP -->
+  <section class="faq">
+    <div class="faq-inner">
+      <span class="section-label">Before You Write</span>
+      <h2>Common Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>Do you take reservations?</h4>
+          <p>We're walk-in only during regular hours. For private events and group bookings (10+), use the form above and select "Event Booking."</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do you have dairy-free and vegan options?</h4>
+          <p>Yes — oat, almond, and soy milk are available for all drinks at no extra charge. Check our menu for full dietary labels.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can I bring my laptop and work here?</h4>
+          <p>Absolutely. We have free high-speed WiFi and plenty of outlets. We just ask that you order something every couple of hours — keeps the vibes right.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do you sell your coffee beans?</h4>
+          <p>We sell our house blends in-store and ship within the state. Wholesale inquiries welcome — use the form and select "Wholesale / Beans."</p>
+        </div>
+        <div class="faq-item">
+          <h4>Is the space dog-friendly?</h4>
+          <p>Dogs are welcome on our outdoor patio! Leashed, well-mannered pups get a free puppuccino. Inside is human-only per health code.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do you offer gift cards?</h4>
+          <p>Yes — physical gift cards are available at the counter in any amount. Digital gift cards are coming soon.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">The Daily <span>Grind</span></a>
+      <p>Your neighborhood ritual. Handcrafted, locally sourced, always warm.</p>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hours</h4>
+      <ul>
+        <li><span>Mon – Fri: 6am – 8pm</span></li>
+        <li><span>Saturday: 7am – 9pm</span></li>
+        <li><span>Sunday: 8am – 6pm</span></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Find Us</h4>
+      <ul>
+        <li><span>142 Elm Street</span></li>
+        <li><span>Downtown District</span></li>
+        <li><a href="tel:+15550000000">(555) 000-0000</a></li>
+        <li><a href="mailto:hello@thedailygrind.com">hello@thedailygrind.com</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">&copy; 2026 The Daily Grind. All rights reserved.</div>
+
+  <script>
+    // ── HIGHLIGHT TODAY IN HOURS ──
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const today = days[new Date().getDay()];
+    document.querySelectorAll('#hours-grid .day').forEach(el => {
+      if (el.textContent.trim() === today) {
+        el.classList.add('today');
+        el.nextElementSibling.classList.add('today');
+      }
+    });
+
+    // ── SUBJECT HINTS ──
+    const subjectSelect = document.getElementById('subject');
+    const hints = document.querySelectorAll('.subject-hint');
+
+    subjectSelect.addEventListener('change', () => {
+      hints.forEach(h => h.classList.remove('visible'));
+      const hint = document.getElementById('hint-' + subjectSelect.value);
+      if (hint) hint.classList.add('visible');
+    });
+
+    // ── FORM VALIDATION + SUBMIT ──
+    const form       = document.getElementById('contact-form');
+    const submitBtn  = document.getElementById('submit-btn');
+    const successEl  = document.getElementById('success-state');
+    const resetBtn   = document.getElementById('reset-btn');
+
+    function validateField(id, errorId, check) {
+      const input = document.getElementById(id);
+      const error = document.getElementById(errorId);
+      const valid = check(input.value.trim());
+      input.classList.toggle('error', !valid);
+      error.classList.toggle('visible', !valid);
+      return valid;
+    }
+
+    function runValidation() {
+      const a = validateField('first-name', 'err-first-name', v => v.length > 0);
+      const b = validateField('last-name',  'err-last-name',  v => v.length > 0);
+      const c = validateField('email',      'err-email',      v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+      const d = validateField('subject',    'err-subject',    v => v.length > 0);
+      const e = validateField('message',    'err-message',    v => v.length >= 10);
+      return a && b && c && d && e;
+    }
+
+    // Clear error on input
+    ['first-name','last-name','email','subject','message'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('input', () => {
+        el.classList.remove('error');
+        const err = document.getElementById('err-' + id);
+        if (err) err.classList.remove('visible');
+      });
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (!runValidation()) return;
+
+      // Simulate async submit
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        form.classList.add('hidden');
+        successEl.classList.add('visible');
+      }, 1400);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      form.classList.remove('hidden');
+      successEl.classList.remove('visible');
+      hints.forEach(h => h.classList.remove('visible'));
+    });
+  </script>
+
+</body>
+</html>
