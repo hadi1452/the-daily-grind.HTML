@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu — The Daily Grind</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --espresso:  #2C1A0E;
+      --brown:     #5C3317;
+      --caramel:   #A0622A;
+      --cream:     #F5ECD7;
+      --oat:       #EDE0C8;
+      --sage:      #7A9278;
+      --sage-dark: #5A7260;
+      --white:     #FDFAF5;
+      --text:      #1E1007;
+      --muted:     #6B5744;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(44, 26, 14, 0.95);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--caramel); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--oat);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--caramel); }
+
+    .nav-cta {
+      background: var(--caramel);
+      color: var(--white) !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+    }
+
+    .nav-cta:hover { background: var(--brown) !important; }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 7rem 2rem 3.5rem;
+      text-align: center;
+      background:
+        linear-gradient(to bottom, rgba(44,26,14,0.72) 0%, rgba(44,26,14,0.45) 100%),
+        url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1400&q=80') center/cover no-repeat;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      margin-bottom: 0.75rem;
+    }
+
+    .page-hero p {
+      color: var(--oat);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 420px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    /* ── CONTROLS BAR ── */
+    .controls {
+      background: var(--espresso);
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Category tabs */
+    .tabs {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 1.1rem 1.4rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(237,224,200,0.55);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .tab-btn:hover { color: var(--oat); }
+
+    .tab-btn.active {
+      color: var(--caramel);
+      border-bottom-color: var(--caramel);
+    }
+
+    /* Diet filters */
+    .diet-filters {
+      display: flex;
+      gap: 0.6rem;
+      padding: 0.75rem 0;
+      flex-shrink: 0;
+    }
+
+    .filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--oat);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.35rem 0.85rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .filter-btn .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.5;
+      transition: opacity 0.2s;
+    }
+
+    .filter-btn.active {
+      background: rgba(122,146,120,0.25);
+      border-color: var(--sage);
+      color: var(--sage);
+    }
+
+    .filter-btn.active .dot { opacity: 1; }
+
+    .filter-btn:hover { border-color: var(--sage); color: var(--sage); }
+
+    /* ── MENU BODY ── */
+    .menu-body {
+      background: var(--cream);
+      min-height: 60vh;
+      padding: 3rem 2rem 6rem;
+    }
+
+    .category-section { display: none; }
+    .category-section.active { display: block; }
+
+    .category-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--oat);
+    }
+
+    .category-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      color: var(--espresso);
+    }
+
+    .category-header p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      max-width: 320px;
+      text-align: right;
+    }
+
+    /* Card grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .menu-card {
+      background: var(--white);
+      border-radius: 1.1rem;
+      padding: 1.4rem 1.35rem;
+      border: 1px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s, opacity 0.3s;
+      position: relative;
+    }
+
+    .menu-card:hover {
+      border-color: var(--caramel);
+      box-shadow: 0 4px 20px rgba(92,51,23,0.1);
+    }
+
+    .menu-card.hidden {
+      display: none;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .card-top h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--espresso);
+      line-height: 1.3;
+    }
+
+    .card-price {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--caramel);
+      white-space: nowrap;
+      padding-top: 0.1rem;
+    }
+
+    .card-desc {
+      font-size: 0.855rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0.85rem;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 1rem;
+    }
+
+    .tag-bestseller { background: #FDF0E0; color: var(--caramel); }
+    .tag-vegan      { background: #E8F0E8; color: var(--sage-dark); }
+    .tag-dairy-free { background: #EAF0F5; color: #4A7A9B; }
+    .tag-seasonal   { background: #F0E8F5; color: #7A5A9B; }
+    .tag-new        { background: #F5E8E8; color: #9B3A3A; }
+    .tag-popular    { background: #F5F0E0; color: #7A6A2A; }
+
+    /* Hero card (featured item) */
+    .menu-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 1.25rem;
+      align-items: center;
+      background: var(--espresso);
+      border-color: transparent;
+    }
+
+    .menu-card.featured:hover {
+      border-color: var(--caramel);
+      box-shadow: 0 6px 28px rgba(44,26,14,0.25);
+    }
+
+    .menu-card.featured .card-top h3 { color: var(--cream); font-size: 1.3rem; }
+    .menu-card.featured .card-price { color: var(--caramel); font-size: 1.1rem; }
+    .menu-card.featured .card-desc { color: var(--oat); opacity: 0.8; }
+
+    .featured-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 0.75rem;
+    }
+
+    /* No results state */
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+
+    .no-results.visible { display: block; }
+
+    .no-results p { font-size: 1rem; margin-top: 0.5rem; }
+
+    /* ── STICKY BOTTOM BANNER ── */
+    .sticky-visit {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 99;
+      background: var(--espresso);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      transform: translateY(100%);
+      transition: transform 0.35s ease;
+    }
+
+    .sticky-visit.visible { transform: translateY(0); }
+
+    .sticky-visit p {
+      color: var(--oat);
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+
+    .sticky-visit p strong { color: var(--cream); font-weight: 600; }
+
+    .sv-btn {
+      display: inline-block;
+      padding: 0.45rem 1.3rem;
+      border-radius: 2rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .sv-primary { background: var(--caramel); color: var(--white); }
+    .sv-primary:hover { background: var(--brown); }
+
+    .sv-ghost {
+      border: 1px solid rgba(255,255,255,0.25);
+      color: var(--cream);
+    }
+
+    .sv-ghost:hover { background: rgba(255,255,255,0.1); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--espresso);
+      color: var(--oat);
+      padding: 3rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.875rem;
+      opacity: 0.6;
+      max-width: 200px;
+      line-height: 1.7;
+      margin-top: 0.6rem;
+    }
+
+    footer h4 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1rem;
+    }
+
+    footer ul { list-style: none; }
+    footer ul li { margin-bottom: 0.5rem; }
+    footer ul a {
+      color: var(--oat);
+      text-decoration: none;
+      font-size: 0.875rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    footer ul a:hover { opacity: 1; }
+    footer ul li span { font-size: 0.875rem; opacity: 0.65; }
+
+    .footer-bottom {
+      background: var(--espresso);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 1.25rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--oat);
+      opacity: 0.45;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links li:first-child { display: none; }
+      .controls { top: 58px; }
+      .menu-card.featured {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
+      }
+      .featured-img { height: 180px; order: -1; }
+      .category-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+      .category-header p { text-align: left; }
+      .sticky-visit { gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+      .sticky-visit p { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">The Daily <span>Grind</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html" class="active">Menu</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="contact.html" class="nav-cta">Find Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <span class="section-label">What We're Brewing</span>
+    <h1>Our Menu</h1>
+    <p>Handcrafted drinks, fresh-baked goods, and a seasonal special you won't want to miss.</p>
+  </div>
+
+  <!-- CONTROLS: tabs + filters -->
+  <div class="controls">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="espresso" role="tab">&#9749; Espresso</button>
+      <button class="tab-btn" data-tab="cold-brew" role="tab">&#129481; Cold Brew</button>
+      <button class="tab-btn" data-tab="teas" role="tab">&#127831; Teas</button>
+      <button class="tab-btn" data-tab="pastries" role="tab">&#129360; Pastries</button>
+      <button class="tab-btn" data-tab="seasonal" role="tab">&#127807; Seasonal</button>
+    </div>
+    <div class="diet-filters">
+      <button class="filter-btn" data-filter="vegan"><span class="dot"></span>Vegan</button>
+      <button class="filter-btn" data-filter="dairy-free"><span class="dot"></span>Dairy-Free</button>
+    </div>
+  </div>
+
+  <!-- MENU BODY -->
+  <main class="menu-body">
+
+    <!-- ESPRESSO -->
+    <section class="category-section active" id="tab-espresso">
+      <div class="category-header">
+        <h2>Espresso Drinks</h2>
+        <p>All espresso drinks can be made with oat, almond, or soy milk at no extra charge.</p>
+      </div>
+      <div class="menu-grid">
+
+        <div class="menu-card featured" data-tags="bestseller">
+          <div>
+            <div class="card-top">
+              <h3>Brown Butter Signature Latte</h3>
+              <span class="card-price">$5.50</span>
+            </div>
+            <p class="card-desc">Our most-loved drink. Double shot espresso, house-made brown butter syrup, steamed oat milk, and a pinch of fleur de sel. Warm, nutty, and completely addictive.</p>
+            <div class="card-tags">
+              <span class="tag tag-bestseller">&#11088; Bestseller</span>
+              <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+              <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free opt.</span>
+            </div>
+          </div>
+          <img class="featured-img" src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&q=80" alt="Brown Butter Latte" />
+        </div>
+
+        <div class="menu-card" data-tags="">
+          <div class="card-top">
+            <h3>Flat White</h3>
+            <span class="card-price">$4.75</span>
+          </div>
+          <p class="card-desc">Ristretto shots with a touch of velvety microfoam. Bold and precise — for those who mean business.</p>
+          <div class="card-tags">
+            <span class="tag tag-popular">Popular</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Oat Cortado</h3>
+            <span class="card-price">$4.50</span>
+          </div>
+          <p class="card-desc">Equal parts espresso and steamed oat milk. Short, balanced, and beautifully simple.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="">
+          <div class="card-top">
+            <h3>Vanilla Bean Cappuccino</h3>
+            <span class="card-price">$5.00</span>
+          </div>
+          <p class="card-desc">Double shot, thick foamed milk, and a swirl of real vanilla bean paste. A classic elevated.</p>
+          <div class="card-tags">
+            <span class="tag tag-popular">Popular</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Americano</h3>
+            <span class="card-price">$3.75</span>
+          </div>
+          <p class="card-desc">Double ristretto over hot water. Clean, direct, unfussy. The purist's choice.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="">
+          <div class="card-top">
+            <h3>Cardamom Rose Latte</h3>
+            <span class="card-price">$5.75</span>
+          </div>
+          <p class="card-desc">Espresso with house-made cardamom syrup, a touch of rosewater, and steamed whole milk. Floral and warming.</p>
+          <div class="card-tags">
+            <span class="tag tag-new">New</span>
+            <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="no-results"><span style="font-size:2rem">&#128566;</span><p>No items match the selected filters in this category.</p></div>
+    </section>
+
+    <!-- COLD BREW -->
+    <section class="category-section" id="tab-cold-brew">
+      <div class="category-header">
+        <h2>Cold Brew</h2>
+        <p>Steeped 18 hours. Never rushed, never bitter.</p>
+      </div>
+      <div class="menu-grid">
+
+        <div class="menu-card featured" data-tags="dairy-free vegan">
+          <div>
+            <div class="card-top">
+              <h3>Cold Brew Float</h3>
+              <span class="card-price">$6.50</span>
+            </div>
+            <p class="card-desc">Our signature 18-hour cold brew poured slowly over a scoop of vanilla bean ice cream. Ask for oat-milk ice cream to keep it vegan. A summer ritual that runs year-round.</p>
+            <div class="card-tags">
+              <span class="tag tag-bestseller">&#11088; Bestseller</span>
+              <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+            </div>
+          </div>
+          <img class="featured-img" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80" alt="Cold Brew Float" />
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Classic Cold Brew</h3>
+            <span class="card-price">$5.00</span>
+          </div>
+          <p class="card-desc">Straight over ice. Dark, smooth, and clean. The most honest version of cold coffee.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Salted Caramel Cold Brew</h3>
+            <span class="card-price">$5.75</span>
+          </div>
+          <p class="card-desc">Cold brew, house caramel, oat milk, and a salted rim. Sweet but grounded.</p>
+          <div class="card-tags">
+            <span class="tag tag-popular">Popular</span>
+            <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free opt.</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Nitro Cold Brew</h3>
+            <span class="card-price">$5.50</span>
+          </div>
+          <p class="card-desc">Nitrogen-infused cold brew on draft. Cascading, creamy, naturally sweet — no milk needed.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+            <span class="tag tag-new">New</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="no-results"><span style="font-size:2rem">&#128566;</span><p>No items match the selected filters in this category.</p></div>
+    </section>
+
+    <!-- TEAS -->
+    <section class="category-section" id="tab-teas">
+      <div class="category-header">
+        <h2>Teas &amp; Tonics</h2>
+        <p>Sourced from small estates. Brewed to order, never from a bag on a hook.</p>
+      </div>
+      <div class="menu-grid">
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Masala Chai Latte</h3>
+            <span class="card-price">$5.25</span>
+          </div>
+          <p class="card-desc">House-brewed spiced chai with ginger, cardamom, and star anise. Steamed with your milk of choice.</p>
+          <div class="card-tags">
+            <span class="tag tag-bestseller">&#11088; Bestseller</span>
+            <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free opt.</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Matcha Oat Latte</h3>
+            <span class="card-price">$5.50</span>
+          </div>
+          <p class="card-desc">Ceremonial-grade matcha whisked with steamed oat milk and a touch of honey (maple on request).</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+            <span class="tag tag-popular">Popular</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Hibiscus Iced Tea</h3>
+            <span class="card-price">$4.00</span>
+          </div>
+          <p class="card-desc">Tart dried hibiscus steeped in cold water, lightly sweetened. Stunning color, refreshing finish.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Golden Turmeric Latte</h3>
+            <span class="card-price">$5.00</span>
+          </div>
+          <p class="card-desc">Turmeric, ginger, cinnamon, and black pepper in warm oat milk. Earthy and deeply comforting.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+            <span class="tag tag-new">New</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Earl Grey &amp; Lavender</h3>
+            <span class="card-price">$4.50</span>
+          </div>
+          <p class="card-desc">Classic Earl Grey brewed strong, served hot or iced with a house lavender simple syrup.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free opt.</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="no-results"><span style="font-size:2rem">&#128566;</span><p>No items match the selected filters in this category.</p></div>
+    </section>
+
+    <!-- PASTRIES -->
+    <section class="category-section" id="tab-pastries">
+      <div class="category-header">
+        <h2>Pastries &amp; Bites</h2>
+        <p>Baked fresh each morning. What's left by 2pm is deeply loved; what's left by 4pm is a miracle.</p>
+      </div>
+      <div class="menu-grid">
+
+        <div class="menu-card featured" data-tags="">
+          <div>
+            <div class="card-top">
+              <h3>Almond Croissant</h3>
+              <span class="card-price">$4.25</span>
+            </div>
+            <p class="card-desc">Baked fresh every morning with locally sourced butter and filled with house almond frangipane. Flaky, golden, and gone by noon. Come early — these are non-negotiable.</p>
+            <div class="card-tags">
+              <span class="tag tag-bestseller">&#11088; Bestseller</span>
+              <span class="tag tag-popular">Fresh Daily</span>
+            </div>
+          </div>
+          <img class="featured-img" src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=80" alt="Almond Croissant" />
+        </div>
+
+        <div class="menu-card" data-tags="vegan">
+          <div class="card-top">
+            <h3>Banana Walnut Loaf</h3>
+            <span class="card-price">$3.75</span>
+          </div>
+          <p class="card-desc">Dense, moist, and lightly spiced. Made with overripe bananas from our local grocery partner and toasted walnuts.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="">
+          <div class="card-top">
+            <h3>Everything Bagel</h3>
+            <span class="card-price">$4.00</span>
+          </div>
+          <p class="card-desc">House-baked everything bagel served with whipped cream cheese. Simple. Reliable. Yours.</p>
+          <div class="card-tags">
+            <span class="tag tag-popular">Popular</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Dark Chocolate Energy Bite</h3>
+            <span class="card-price">$2.75</span>
+          </div>
+          <p class="card-desc">Oats, dates, dark chocolate, and chia seeds. Two bites of something that won't regret you.</p>
+          <div class="card-tags">
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="">
+          <div class="card-top">
+            <h3>Ham &amp; Gruyère Scone</h3>
+            <span class="card-price">$4.50</span>
+          </div>
+          <p class="card-desc">Savory and substantial. Local ham folded into a buttery scone with aged Gruyère baked right in.</p>
+          <div class="card-tags">
+            <span class="tag tag-new">New</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="no-results"><span style="font-size:2rem">&#128566;</span><p>No items match the selected filters in this category.</p></div>
+    </section>
+
+    <!-- SEASONAL -->
+    <section class="category-section" id="tab-seasonal">
+      <div class="category-header">
+        <h2>Seasonal Specials</h2>
+        <p>These rotate with the seasons. When they're gone, they're gone — until next time.</p>
+      </div>
+      <div class="menu-grid">
+
+        <div class="menu-card featured" data-tags="vegan dairy-free">
+          <div>
+            <div class="card-top">
+              <h3>Iced Lavender Honey Latte</h3>
+              <span class="card-price">$6.25</span>
+            </div>
+            <p class="card-desc">This summer's feature. Espresso over ice with house lavender syrup, wildflower honey, and chilled oat milk. Light purple, deeply fragrant, and dangerously drinkable. Available June – August.</p>
+            <div class="card-tags">
+              <span class="tag tag-seasonal">Summer Special</span>
+              <span class="tag tag-new">Now Serving</span>
+              <span class="tag tag-vegan" data-diet="vegan">Vegan opt.</span>
+              <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free opt.</span>
+            </div>
+          </div>
+          <img class="featured-img" src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80" alt="Lavender Latte" />
+        </div>
+
+        <div class="menu-card" data-tags="vegan">
+          <div class="card-top">
+            <h3>Peach Cardamom Iced Tea</h3>
+            <span class="card-price">$5.00</span>
+          </div>
+          <p class="card-desc">Cold-steeped white tea with fresh peach purée and cardamom syrup. Floral and stone-fruity.</p>
+          <div class="card-tags">
+            <span class="tag tag-seasonal">Summer</span>
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="">
+          <div class="card-top">
+            <h3>Strawberry Cream Scone</h3>
+            <span class="card-price">$4.50</span>
+          </div>
+          <p class="card-desc">Local strawberries folded into a cream scone. Topped with a light lemon glaze. Peak June.</p>
+          <div class="card-tags">
+            <span class="tag tag-seasonal">Limited</span>
+            <span class="tag tag-new">Fresh Today</span>
+          </div>
+        </div>
+
+        <div class="menu-card" data-tags="vegan dairy-free">
+          <div class="card-top">
+            <h3>Sparkling Mint Cold Brew</h3>
+            <span class="card-price">$5.75</span>
+          </div>
+          <p class="card-desc">Cold brew, fresh mint syrup, and sparkling water. Refreshing in a way that replaces everything else.</p>
+          <div class="card-tags">
+            <span class="tag tag-seasonal">Summer</span>
+            <span class="tag tag-vegan" data-diet="vegan">Vegan</span>
+            <span class="tag tag-dairy-free" data-diet="dairy-free">Dairy-Free</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="no-results"><span style="font-size:2rem">&#128566;</span><p>No items match the selected filters in this category.</p></div>
+    </section>
+
+  </main>
+
+  <!-- STICKY BOTTOM BANNER -->
+  <div class="sticky-visit" id="stickyVisit">
+    <p>Like what you see? <strong>Come try it in person.</strong></p>
+    <a href="contact.html" class="sv-btn sv-primary">Get Directions &rarr;</a>
+    <a href="contact.html" class="sv-btn sv-ghost">Ask a Question</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">The Daily <span>Grind</span></a>
+      <p>Your neighborhood ritual. Handcrafted, locally sourced, always warm.</p>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hours</h4>
+      <ul>
+        <li><span>Mon – Fri: 6am – 8pm</span></li>
+        <li><span>Saturday: 7am – 9pm</span></li>
+        <li><span>Sunday: 8am – 6pm</span></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Find Us</h4>
+      <ul>
+        <li><span>142 Elm Street</span></li>
+        <li><span>Downtown District</span></li>
+        <li><a href="tel:+15550000000">(555) 000-0000</a></li>
+        <li><a href="mailto:hello@thedailygrind.com">hello@thedailygrind.com</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">&copy; 2026 The Daily Grind. All rights reserved.</div>
+
+  <script>
+    // ── TAB SWITCHING ──
+    const tabBtns  = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('.category-section');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+
+        tabBtns.forEach(b  => b.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById('tab-' + target).classList.add('active');
+
+        applyFilters();
+      });
+    });
+
+    // ── DIET FILTERS ──
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    let activeFilters = new Set();
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter;
+        if (activeFilters.has(f)) {
+          activeFilters.delete(f);
+          btn.classList.remove('active');
+        } else {
+          activeFilters.add(f);
+          btn.classList.add('active');
+        }
+        applyFilters();
+      });
+    });
+
+    function applyFilters() {
+      const activeSection = document.querySelector('.category-section.active');
+      if (!activeSection) return;
+
+      const cards     = activeSection.querySelectorAll('.menu-card');
+      const noResults = activeSection.querySelector('.no-results');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        if (activeFilters.size === 0) {
+          card.classList.remove('hidden');
+          visibleCount++;
+          return;
+        }
+
+        const cardTags = card.dataset.tags || '';
+        const matches  = [...activeFilters].every(f => cardTags.includes(f));
+
+        if (matches) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      noResults.classList.toggle('visible', visibleCount === 0);
+    }
+
+    // ── STICKY BANNER ──
+    const banner = document.getElementById('stickyVisit');
+    window.addEventListener('scroll', () => {
+      banner.classList.toggle('visible', window.scrollY > 300);
+    });
+  </script>
+
+</body>
+</html>
